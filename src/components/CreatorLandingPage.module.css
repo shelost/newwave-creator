@@ -601,12 +601,14 @@
   letter-spacing: -.25px;
 }
 
-/* Desktop Parallax Performance Optimization */
-@media screen and (min-width: 769px) {
-  .letterContent,
-  .workflowVisualImage {
-    will-change: transform;
-  }
+/* Parallax Performance Optimization - All Devices */
+.letterContent,
+.workflowVisualImage {
+  /* Enable GPU acceleration for smooth parallax scrolling */
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 /* Animations */
@@ -676,8 +678,9 @@
   .heroSection {
     padding: 80px 0 40px 0;
     width: 90%;
+    box-sizing: border-box;
     margin: auto;
-    min-height: 40vh;
+    min-height: 95vh;
 
     align-items: flex-start !important;
   }

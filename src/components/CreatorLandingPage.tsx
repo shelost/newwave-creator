@@ -3,70 +3,121 @@ import styles from './CreatorLandingPage.module.css';
 import BlobBackground from './BlobBackground';
 
 const CreatorLandingPage: React.FC = () => {
-  // Parallax speed factors - adjust these to control the strength (higher = faster scroll)
-  const LETTER_CONTENT_SPEED = 1.1 // 15% faster than normal scroll
-  const WORKFLOW_IMAGE_SPEED = 1.1; // 20% faster than normal scroll
+  // Parallax speed factors - desktop values (reduced on mobile for performance)
+  const LETTER_CONTENT_SPEED = 1.1; // 10% faster than normal scroll
+  const WORKFLOW_IMAGE_SPEED = 1.1; // 10% faster than normal scroll
+  
+  // Mobile uses 50% of desktop intensity for better performance
+  const MOBILE_SPEED_MULTIPLIER = 0.5;
 
   // Refs for parallax elements
   const letterContentRef = useRef<HTMLDivElement>(null);
   const workflowImageRef = useRef<HTMLImageElement>(null);
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 768);
+  const rafRef = useRef<number | null>(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  
+  // IntersectionObserver refs to track visibility
+  const letterObserverRef = useRef<IntersectionObserver | null>(null);
+  const workflowObserverRef = useRef<IntersectionObserver | null>(null);
+  const [isLetterVisible, setIsLetterVisible] = useState(false);
+  const [isWorkflowVisible, setIsWorkflowVisible] = useState(false);
 
   useEffect(() => {
-    // Handle window resize to enable/disable parallax dynamically
+    // Handle window resize
     const handleResize = () => {
-      const desktop = window.innerWidth > 768;
-      setIsDesktop(desktop);
-      
-      // Reset transforms when switching to mobile
-      if (!desktop) {
-        if (letterContentRef.current) {
-          letterContentRef.current.style.transform = 'none';
-        }
-        if (workflowImageRef.current) {
-          workflowImageRef.current.style.transform = 'none';
-        }
-      }
+      setIsMobile(window.innerWidth <= 768);
     };
 
-    const handleScroll = () => {
-      // Only apply parallax on desktop
-      if (!isDesktop) return;
+    // Create IntersectionObservers to track element visibility
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '50px'
+    };
 
+    letterObserverRef.current = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        setIsLetterVisible(entry.isIntersecting);
+      });
+    }, observerOptions);
+
+    workflowObserverRef.current = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        setIsWorkflowVisible(entry.isIntersecting);
+      });
+    }, observerOptions);
+
+    // Observe elements
+    if (letterContentRef.current) {
+      letterObserverRef.current.observe(letterContentRef.current);
+    }
+    if (workflowImageRef.current) {
+      workflowObserverRef.current.observe(workflowImageRef.current);
+    }
+
+    const applyParallax = () => {
       const scrollPosition = window.pageYOffset;
+      
+      // Mobile uses reduced parallax intensity for better performance
+      const letterSpeed = isMobile 
+        ? 1 + ((LETTER_CONTENT_SPEED - 1) * MOBILE_SPEED_MULTIPLIER)
+        : LETTER_CONTENT_SPEED;
+      const workflowSpeed = isMobile 
+        ? 1 + ((WORKFLOW_IMAGE_SPEED - 1) * MOBILE_SPEED_MULTIPLIER)
+        : WORKFLOW_IMAGE_SPEED;
 
-      // Apply parallax effect to letterContent
-      if (letterContentRef.current) {
+      // Apply parallax effect to letterContent only if visible
+      if (letterContentRef.current && isLetterVisible) {
         const elementTop = letterContentRef.current.getBoundingClientRect().top + scrollPosition;
         const elementScroll = scrollPosition - elementTop + window.innerHeight;
         
         if (elementScroll > 0) {
-          const offset = elementScroll * (LETTER_CONTENT_SPEED - 1);
+          const offset = elementScroll * (letterSpeed - 1);
           letterContentRef.current.style.transform = `translateY(-${offset}px)`;
         }
       }
 
-      // Apply parallax effect to workflowVisualImage
-      if (workflowImageRef.current) {
+      // Apply parallax effect to workflowVisualImage only if visible
+      if (workflowImageRef.current && isWorkflowVisible) {
         const elementTop = workflowImageRef.current.getBoundingClientRect().top + scrollPosition;
         const elementScroll = scrollPosition - elementTop + window.innerHeight;
         
         if (elementScroll > 0) {
-          const offset = elementScroll * (WORKFLOW_IMAGE_SPEED - 1);
+          const offset = elementScroll * (workflowSpeed - 1);
           workflowImageRef.current.style.transform = `translateY(-${offset}px)`;
         }
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    const handleScroll = () => {
+      // Use requestAnimationFrame for smooth performance
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
+      
+      rafRef.current = requestAnimationFrame(applyParallax);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('resize', handleResize);
+    
+    // Initial call
+    applyParallax();
     
     // Cleanup
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleResize);
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
+      if (letterObserverRef.current) {
+        letterObserverRef.current.disconnect();
+      }
+      if (workflowObserverRef.current) {
+        workflowObserverRef.current.disconnect();
+      }
     };
-  }, [isDesktop]);
+  }, [isMobile, isLetterVisible, isWorkflowVisible]);
 
   return (
     <div className={styles.landingPage}>
