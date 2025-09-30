@@ -1,9 +1,11 @@
 import React from 'react';
 import styles from './CreatorLandingPage.module.css';
+import BlobBackground from './BlobBackground';
 
 const CreatorLandingPage: React.FC = () => {
   return (
     <div className={styles.landingPage}>
+      <BlobBackground />
       {/* Hero Section */}
       <section className={styles.heroSection}>
 
@@ -29,8 +31,15 @@ const CreatorLandingPage: React.FC = () => {
         <div className={styles.container}>
           <h2 className={styles.sectionTitle}>Small creators, big opportunities.</h2>
           <p className={styles.sectionSubtitle}>
-            Getting brands to notice you is hard. That's why we flip the script, instead of you chasing deals,<br />
-            our AI brings the newest startups straight to your inbox. Cool products. Real collabs. No waiting.
+            Getting brands to notice you is hard. <br/> <br/>
+            
+            That's why we flip the script. <br/><br/>
+            
+            Instead of you chasing deals, <br/><br/>
+
+            Our AI brings the newest startups straight to your inbox. <br/><br/>
+            
+            Cool products. Real collabs. No waiting.
           </p>
           
           <div className={styles.featuresGrid}>
@@ -84,9 +93,11 @@ const CreatorLandingPage: React.FC = () => {
       {/* How It Works Section */}
       <section className={styles.howItWorksSection}>
         <div className={styles.container}>
-          <h2 className={styles.sectionTitle}>How It Works (Creator Workflow)</h2>
+          <h2 className={styles.sectionTitle}>How It Works</h2>
           <p className={styles.sectionSubtitle}>From profile to paycheck — here's what it looks like:</p>
           
+          <div className={styles.workflowContainer}>
+        
           <div className={styles.workflowSteps}>
             <div className={styles.workflowStep}>
               <div className={styles.stepNumber}>1</div>
@@ -122,47 +133,8 @@ const CreatorLandingPage: React.FC = () => {
           </div>
           
           <div className={styles.workflowVisual}>
-            <div className={styles.laptopMockup}>
-              <div className={styles.laptopScreen}>
-                <div className={styles.dashboardPreview}>
-                  <div className={styles.sidebar}>
-                    <div className={`${styles.sidebarItem} ${styles.active}`}></div>
-                    <div className={styles.sidebarItem}></div>
-                    <div className={styles.sidebarItem}></div>
-                    <div className={styles.sidebarItem}></div>
-                    <div className={styles.sidebarItem}></div>
-                  </div>
-                  <div className={styles.mainContent}>
-                    <div className={styles.contentHeader}></div>
-                    <div className={styles.contentCards}>
-                      <div className={styles.card}></div>
-                      <div className={styles.card}></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div className={styles.workflowCards}>
-              <div className={styles.workflowCardGrid}>
-                <div className={styles.miniCard}>
-                  <div className={styles.miniCardHeader}></div>
-                  <div className={styles.miniCardContent}></div>
-                </div>
-                <div className={styles.miniCard}>
-                  <div className={styles.miniCardHeader}></div>
-                  <div className={styles.miniCardContent}></div>
-                </div>
-                <div className={styles.miniCard}>
-                  <div className={styles.miniCardHeader}></div>
-                  <div className={styles.miniCardContent}></div>
-                </div>
-                <div className={styles.miniCard}>
-                  <div className={styles.miniCardHeader}></div>
-                  <div className={styles.miniCardContent}></div>
-                </div>
-              </div>
-            </div>
+            <img src="/macbook.png" alt="Workflow Visual" className={styles.workflowVisualImage} />
+          </div>
           </div>
         </div>
       </section>
