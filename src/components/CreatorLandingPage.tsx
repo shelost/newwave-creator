@@ -1,25 +1,38 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './CreatorLandingPage.module.css';
 import BlobBackground from './BlobBackground';
 
 const CreatorLandingPage: React.FC = () => {
   // Parallax speed factors - adjust these to control the strength (higher = faster scroll)
-  const LETTER_CONTENT_SPEED = 1.05 // 15% faster than normal scroll
+  const LETTER_CONTENT_SPEED = 1.1 // 15% faster than normal scroll
   const WORKFLOW_IMAGE_SPEED = 1.1; // 20% faster than normal scroll
 
   // Refs for parallax elements
   const letterContentRef = useRef<HTMLDivElement>(null);
   const workflowImageRef = useRef<HTMLImageElement>(null);
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 768);
 
   useEffect(() => {
-    // Disable parallax on mobile for better performance
-    const isMobile = window.innerWidth <= 768;
-    
-    if (isMobile) {
-      return; // Skip parallax setup on mobile
-    }
+    // Handle window resize to enable/disable parallax dynamically
+    const handleResize = () => {
+      const desktop = window.innerWidth > 768;
+      setIsDesktop(desktop);
+      
+      // Reset transforms when switching to mobile
+      if (!desktop) {
+        if (letterContentRef.current) {
+          letterContentRef.current.style.transform = 'none';
+        }
+        if (workflowImageRef.current) {
+          workflowImageRef.current.style.transform = 'none';
+        }
+      }
+    };
 
     const handleScroll = () => {
+      // Only apply parallax on desktop
+      if (!isDesktop) return;
+
       const scrollPosition = window.pageYOffset;
 
       // Apply parallax effect to letterContent
@@ -46,12 +59,14 @@ const CreatorLandingPage: React.FC = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleResize);
     
     // Cleanup
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [isDesktop]);
 
   return (
     <div className={styles.landingPage}>
