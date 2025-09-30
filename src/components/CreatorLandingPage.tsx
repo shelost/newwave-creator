@@ -6,8 +6,11 @@ const CreatorLandingPage: React.FC = () => {
     <div className={styles.landingPage}>
       {/* Hero Section */}
       <section className={styles.heroSection}>
-        <div className={styles.container}>
+
+
           <div className={styles.heroContent}>
+
+            <img src="/newwave-text.png" alt="NewWave" className={styles.heroLogo} />
             <h1 className={styles.heroTitle}>
               Be the first to try it. <br />
               Show it. Get paid.
@@ -18,29 +21,7 @@ const CreatorLandingPage: React.FC = () => {
             <button className={styles.ctaButton}>Join the waitlist</button>
           </div>
           
-          <div className={styles.heroVisual}>
-            <div className={styles.mockupCard}>
-              <div className={styles.mockupHeader}>
-                <h3>The AI-powered Jira:</h3>
-                <h2>from <span className={styles.highlight}>teams</span> to dreams</h2>
-              </div>
-              <div className={styles.mockupImage}>
-                <div className={styles.placeholderImage}>
-                  <div className={styles.teamIcons}>
-                    <div className={styles.iconRow}>
-                      <div className={styles.avatar}></div>
-                      <div className={styles.avatar}></div>
-                      <div className={styles.avatar}></div>
-                      <div className={styles.avatar}></div>
-                      <div className={styles.avatar}></div>
-                    </div>
-                    <p className={styles.teamText}>Work faster with your AI team.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+
       </section>
 
       {/* Value Prop Section */}
