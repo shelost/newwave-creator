@@ -18,7 +18,7 @@ const CreatorLandingPage: React.FC = () => {
               Show it. Get paid.
             </h1>
             <p className={styles.heroSubtitle}>
-              Tap into the newest, coolest startups and get paid for every collab
+              Tap into the newest, coolest startups and get paid for every collab.
             </p>
             <button className={styles.ctaButton}>Join the waitlist</button>
           </div>
@@ -30,17 +30,38 @@ const CreatorLandingPage: React.FC = () => {
       <section className={styles.valuePropSection}>
         <div className={styles.container}>
           <h2 className={styles.sectionTitle}>Small creators, big opportunities.</h2>
-          <p className={styles.sectionSubtitle}>
-            Getting brands to notice you is hard. <br/> <br/>
-            
-            That's why we flip the script. <br/><br/>
-            
-            Instead of you chasing deals, <br/><br/>
 
-            Our AI brings the newest startups straight to your inbox. <br/><br/>
-            
-            Cool products. Real collabs. No waiting.
-          </p>
+
+            <div className={styles.letterContent}>
+                    <p className={styles.letterText}>
+                        Getting brands to notice you is hard. 
+                    </p>
+                    <p className={styles.letterText}>
+                        
+                        That's why we flip the script. 
+                    </p>
+                    <p className={styles.letterText}>
+                        Instead of you chasing deals, 
+                    </p>
+                    <p className={styles.letterText}>
+                        Our AI brings the newest startups straight to your inbox. 
+                    </p>
+                    <p className={styles.letterText}>
+                        Cool products. Real collabs. No waiting.
+                    </p>
+                    <p className={styles.letterText}>
+                        Instead of you chasing deals, 
+                    </p>
+                    <p className={styles.letterText}>
+                        Our AI brings the newest startups straight to your inbox. 
+                    </p>
+                    <p className={styles.letterText}>
+                        Cool products. Real collabs. No waiting.
+                    </p>
+
+                    <img src="/newwave-text.png" alt="Letter" className={styles.letterImage} />
+            </div>
+
           
           <div className={styles.featuresGrid}>
             <div className={styles.featureCard}>
@@ -143,7 +164,8 @@ const CreatorLandingPage: React.FC = () => {
       <section className={styles.finalCtaSection}>
         <div className={styles.container}>
           <div className={styles.finalCtaContent}>
-            <h2 className={styles.finalCtaTitle}>🌊 Ride the first wave of tech collabs.</h2>
+            <h2 className={styles.finalCtaSubtitle}>🌊</h2>
+            <h2 className={styles.finalCtaTitle}>Ride the first wave of tech collabs.</h2>
             <p className={styles.finalCtaText}>
               Be the first creator to test and share tomorrow's SaaS products — with guaranteed payouts.
             </p>
