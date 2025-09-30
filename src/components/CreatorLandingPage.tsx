@@ -1,8 +1,58 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import styles from './CreatorLandingPage.module.css';
 import BlobBackground from './BlobBackground';
 
 const CreatorLandingPage: React.FC = () => {
+  // Parallax speed factors - adjust these to control the strength (higher = faster scroll)
+  const LETTER_CONTENT_SPEED = 1.05 // 15% faster than normal scroll
+  const WORKFLOW_IMAGE_SPEED = 1.1; // 20% faster than normal scroll
+
+  // Refs for parallax elements
+  const letterContentRef = useRef<HTMLDivElement>(null);
+  const workflowImageRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    // Disable parallax on mobile for better performance
+    const isMobile = window.innerWidth <= 768;
+    
+    if (isMobile) {
+      return; // Skip parallax setup on mobile
+    }
+
+    const handleScroll = () => {
+      const scrollPosition = window.pageYOffset;
+
+      // Apply parallax effect to letterContent
+      if (letterContentRef.current) {
+        const elementTop = letterContentRef.current.getBoundingClientRect().top + scrollPosition;
+        const elementScroll = scrollPosition - elementTop + window.innerHeight;
+        
+        if (elementScroll > 0) {
+          const offset = elementScroll * (LETTER_CONTENT_SPEED - 1);
+          letterContentRef.current.style.transform = `translateY(-${offset}px)`;
+        }
+      }
+
+      // Apply parallax effect to workflowVisualImage
+      if (workflowImageRef.current) {
+        const elementTop = workflowImageRef.current.getBoundingClientRect().top + scrollPosition;
+        const elementScroll = scrollPosition - elementTop + window.innerHeight;
+        
+        if (elementScroll > 0) {
+          const offset = elementScroll * (WORKFLOW_IMAGE_SPEED - 1);
+          workflowImageRef.current.style.transform = `translateY(-${offset}px)`;
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    
+    // Cleanup
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <div className={styles.landingPage}>
       <BlobBackground />
@@ -32,7 +82,7 @@ const CreatorLandingPage: React.FC = () => {
           <h2 className={styles.sectionTitle}>Small creators, big opportunities.</h2>
 
 
-            <div className={styles.letterContent}>
+            <div ref={letterContentRef} className={styles.letterContent}>
                     <p className={styles.letterText}>
                         Getting brands to notice you is hard. 
                     </p>
@@ -154,7 +204,7 @@ const CreatorLandingPage: React.FC = () => {
           </div>
           
           <div className={styles.workflowVisual}>
-            <img src="/macbook.png" alt="Workflow Visual" className={styles.workflowVisualImage} />
+            <img ref={workflowImageRef} src="/macbook.png" alt="Workflow Visual" className={styles.workflowVisualImage} />
           </div>
           </div>
         </div>
