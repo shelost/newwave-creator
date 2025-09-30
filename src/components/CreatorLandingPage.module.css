@@ -1,0 +1,568 @@
+/* Reset and Base Styles */
+.landingPage {
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Hero Section */
+.heroSection {
+  background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
+  padding: 80px 0 100px;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+}
+
+.heroSection .container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.heroContent {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.heroTitle {
+  font-size: 56px;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 24px;
+  color: #0a0a0a;
+  letter-spacing: -0.02em;
+}
+
+.heroSubtitle {
+  font-size: 22px;
+  line-height: 1.6;
+  color: #4a4a4a;
+  margin-bottom: 40px;
+  max-width: 500px;
+}
+
+.ctaButton {
+  background: #4169e1;
+  color: white;
+  border: none;
+  padding: 18px 48px;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(65, 105, 225, 0.3);
+}
+
+.ctaButton:hover {
+  background: #3454b4;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(65, 105, 225, 0.4);
+}
+
+.heroVisual {
+  animation: fadeInRight 0.8s ease-out;
+}
+
+.mockupCard {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.mockupCard:hover {
+  transform: translateY(-8px);
+}
+
+.mockupHeader h3 {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.mockupHeader h2 {
+  font-size: 32px;
+  color: #0a0a0a;
+  font-weight: 700;
+}
+
+.mockupHeader .highlight {
+  color: #4169e1;
+  font-weight: 800;
+  position: relative;
+}
+
+.mockupHeader .highlight::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #4169e1;
+  border-radius: 2px;
+}
+
+.mockupImage {
+  margin-top: 30px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  padding: 40px;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholderImage {
+  width: 100%;
+}
+
+.teamIcons {
+  text-align: center;
+}
+
+.iconRow {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+  border: 3px solid white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.teamText {
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Value Prop Section */
+.valuePropSection {
+  padding: 100px 0;
+  background: #ffffff;
+}
+
+.sectionTitle {
+  font-size: 48px;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #0a0a0a;
+  letter-spacing: -0.02em;
+}
+
+.sectionSubtitle {
+  font-size: 18px;
+  line-height: 1.8;
+  text-align: center;
+  color: #4a4a4a;
+  margin-bottom: 60px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  margin-top: 60px;
+}
+
+.featureCard {
+  background: #f8f9ff;
+  border-radius: 16px;
+  padding: 40px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.featureCard:hover {
+  transform: translateY(-8px);
+  border-color: #4169e1;
+  box-shadow: 0 12px 40px rgba(65, 105, 225, 0.15);
+}
+
+.featureImagePlaceholder {
+  width: 100%;
+  height: 200px;
+  background: white;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.browserMockup {
+  width: 80%;
+  height: 80%;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  overflow: hidden;
+}
+
+.browserBar {
+  height: 30px;
+  background: #f5f5f5;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.browserContent {
+  padding: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  height: calc(100% - 30px);
+}
+
+.featureCard h3 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #0a0a0a;
+}
+
+.featureCard p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #666;
+}
+
+/* How It Works Section */
+.howItWorksSection {
+  padding: 100px 0;
+  background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
+}
+
+.workflowSteps {
+  max-width: 800px;
+  margin: 60px auto;
+}
+
+.workflowStep {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 40px;
+  align-items: flex-start;
+}
+
+.stepNumber {
+  width: 60px;
+  height: 60px;
+  background: #4169e1;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 700;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(65, 105, 225, 0.3);
+}
+
+.stepContent h3 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #0a0a0a;
+}
+
+.stepContent p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #666;
+}
+
+.workflowVisual {
+  margin-top: 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+.laptopMockup {
+  background: #1a1a1a;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.laptopScreen {
+  background: #0a0a0a;
+  border-radius: 8px;
+  padding: 20px;
+  aspect-ratio: 16/10;
+}
+
+.dashboardPreview {
+  background: white;
+  border-radius: 8px;
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 80px;
+  background: #f5f5f5;
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sidebarItem {
+  width: 100%;
+  height: 40px;
+  background: #e0e0e0;
+  border-radius: 8px;
+}
+
+.sidebarItem.active {
+  background: #4169e1;
+}
+
+.mainContent {
+  flex: 1;
+  padding: 20px;
+}
+
+.contentHeader {
+  height: 40px;
+  background: #f0f0f0;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.contentCards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card {
+  height: 80px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 8px;
+}
+
+.workflowCardGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.miniCard {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.miniCard:hover {
+  transform: translateY(-4px);
+}
+
+.miniCardHeader {
+  height: 20px;
+  background: #4169e1;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+.miniCardContent {
+  height: 60px;
+  background: #f5f5f5;
+  border-radius: 4px;
+}
+
+/* Final CTA Section */
+.finalCtaSection {
+  padding: 100px 0;
+  background: linear-gradient(135deg, #4169e1 0%, #3454b4 100%);
+  color: white;
+}
+
+.finalCtaContent {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.finalCtaTitle {
+  font-size: 48px;
+  font-weight: 800;
+  margin-bottom: 24px;
+  letter-spacing: -0.02em;
+}
+
+.finalCtaText {
+  font-size: 20px;
+  line-height: 1.6;
+  margin-bottom: 40px;
+  opacity: 0.95;
+}
+
+.finalCtaSection .ctaButton {
+  background: white;
+  color: #4169e1;
+}
+
+.finalCtaSection .ctaButton:hover {
+  background: #f0f0f0;
+  color: #3454b4;
+}
+
+/* Footer */
+.footer {
+  background: #0a0a0a;
+  color: white;
+  padding: 40px 0;
+  text-align: center;
+}
+
+.footer p {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .heroSection .container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .heroTitle {
+    font-size: 44px;
+  }
+  
+  .sectionTitle {
+    font-size: 36px;
+  }
+  
+  .featuresGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .workflowVisual {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .heroSection {
+    padding: 60px 0;
+  }
+  
+  .heroTitle {
+    font-size: 36px;
+  }
+  
+  .heroSubtitle {
+    font-size: 18px;
+  }
+  
+  .sectionTitle {
+    font-size: 32px;
+  }
+  
+  .sectionSubtitle {
+    font-size: 16px;
+  }
+  
+  .finalCtaTitle {
+    font-size: 36px;
+  }
+  
+  .finalCtaText {
+    font-size: 18px;
+  }
+  
+  .mockupCard {
+    padding: 24px;
+  }
+  
+  .mockupHeader h2 {
+    font-size: 24px;
+  }
+  
+  .workflowCardGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .workflowStep {
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 16px;
+  }
+  
+  .heroTitle {
+    font-size: 28px;
+  }
+  
+  .heroSubtitle {
+    font-size: 16px;
+  }
+  
+  .ctaButton {
+    padding: 14px 32px;
+    font-size: 16px;
+  }
+  
+  .sectionTitle {
+    font-size: 28px;
+  }
+  
+  .finalCtaTitle {
+    font-size: 28px;
+  }
+}
