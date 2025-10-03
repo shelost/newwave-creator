@@ -22,6 +22,17 @@ const CreatorLandingPage: React.FC = () => {
   const [isLetterVisible, setIsLetterVisible] = useState(false);
   const [isWorkflowVisible, setIsWorkflowVisible] = useState(false);
 
+  // Workflow steps state and refs
+  const [activeStep, setActiveStep] = useState(0);
+  const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [pillStyle, setPillStyle] = useState({ width: 0, top: 0, height: 0 });
+
+  // Campaign cards refs for 3D effects
+  const leftCampaignRef = useRef<HTMLDivElement>(null);
+  const rightCampaignRef = useRef<HTMLDivElement>(null);
+  const [isCampaignsVisible, setIsCampaignsVisible] = useState(false);
+  const campaignsObserverRef = useRef<IntersectionObserver | null>(null);
+
   useEffect(() => {
     // Handle window resize
     const handleResize = () => {
@@ -46,12 +57,21 @@ const CreatorLandingPage: React.FC = () => {
       });
     }, observerOptions);
 
+    campaignsObserverRef.current = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        setIsCampaignsVisible(entry.isIntersecting);
+      });
+    }, observerOptions);
+
     // Observe elements
     if (letterContentRef.current) {
       letterObserverRef.current.observe(letterContentRef.current);
     }
     if (workflowImageRef.current) {
       workflowObserverRef.current.observe(workflowImageRef.current);
+    }
+    if (leftCampaignRef.current) {
+      campaignsObserverRef.current.observe(leftCampaignRef.current);
     }
 
     const applyParallax = () => {
@@ -86,6 +106,45 @@ const CreatorLandingPage: React.FC = () => {
           workflowImageRef.current.style.transform = `translateY(-${offset}px)`;
         }
       }
+
+      // Apply 3D rotation effects to campaign cards only if visible
+      if (isCampaignsVisible && !isMobile) {
+        // Left campaign card - rotates slightly right and skews as you scroll
+        if (leftCampaignRef.current) {
+          const rect = leftCampaignRef.current.getBoundingClientRect();
+          const cardCenter = rect.top + rect.height / 2;
+          const viewportCenter = window.innerHeight / 2;
+          const distance = (viewportCenter - cardCenter) / window.innerHeight;
+          
+          // Subtle rotation (max 8 degrees) and skew (max 3 degrees)
+          const rotateY = Math.max(-24, Math.min(240, distance * 15));
+          const skewX = Math.max(-3, Math.min(3, distance * 6));
+          
+          leftCampaignRef.current.style.transform = `perspective(600px) rotateY(${rotateY}deg) skewX(${skewX}deg)`;
+        }
+
+        // Right campaign card - rotates slightly left and skews as you scroll
+        if (rightCampaignRef.current) {
+          const rect = rightCampaignRef.current.getBoundingClientRect();
+          const cardCenter = rect.top + rect.height / 2;
+          const viewportCenter = window.innerHeight / 2;
+          const distance = (viewportCenter - cardCenter) / window.innerHeight;
+          
+          // Opposite direction for right card
+          const rotateY = Math.max(-8, Math.min(8, distance * -15));
+          const skewX = Math.max(-3, Math.min(3, distance * -6));
+          
+          rightCampaignRef.current.style.transform = `perspective(1000px) rotateY(${rotateY}deg) skewX(${skewX}deg)`;
+        }
+      } else if (isMobile) {
+        // Reset transforms on mobile for better readability
+        if (leftCampaignRef.current) {
+          leftCampaignRef.current.style.transform = 'none';
+        }
+        if (rightCampaignRef.current) {
+          rightCampaignRef.current.style.transform = 'none';
+        }
+      }
     };
 
     const handleScroll = () => {
@@ -116,8 +175,45 @@ const CreatorLandingPage: React.FC = () => {
       if (workflowObserverRef.current) {
         workflowObserverRef.current.disconnect();
       }
+      if (campaignsObserverRef.current) {
+        campaignsObserverRef.current.disconnect();
+      }
     };
-  }, [isMobile, isLetterVisible, isWorkflowVisible]);
+  }, [isMobile, isLetterVisible, isWorkflowVisible, isCampaignsVisible]);
+
+  // Update pill position when active step changes
+  useEffect(() => {
+    const updatePillPosition = () => {
+      if (stepRefs.current[activeStep]) {
+        const activeElement = stepRefs.current[activeStep];
+        if (activeElement) {
+          const rect = activeElement.getBoundingClientRect();
+          const containerRect = activeElement.parentElement?.getBoundingClientRect();
+          
+          if (containerRect) {
+            setPillStyle({
+              width: rect.width,
+              top: rect.top - containerRect.top,
+              height: rect.height
+            });
+          }
+        }
+      }
+    };
+
+    // Use setTimeout to ensure DOM is fully rendered
+    setTimeout(updatePillPosition, 0);
+    window.addEventListener('resize', updatePillPosition);
+
+    return () => {
+      window.removeEventListener('resize', updatePillPosition);
+    };
+  }, [activeStep]);
+
+  // Handle step click
+  const handleStepClick = (index: number) => {
+    setActiveStep(index);
+  };
 
   return (
     <div className={styles.landingPage}>
@@ -130,8 +226,8 @@ const CreatorLandingPage: React.FC = () => {
 
             <img src="/newwave-text.png" alt="NewWave" className={styles.heroLogo} />
             <h1 className={styles.heroTitle}>
-              Be the first to try it. <br />
-              Show it. Get paid.
+              <span className={styles.gradientText}>Be the first to try it. <br />
+              Show it.</span> <span className={styles.highlightText}> Get paid. </span>
             </h1>
             <p className={styles.heroSubtitle}>
               Tap into the newest, coolest startups and get paid for every collab.
@@ -147,7 +243,27 @@ const CreatorLandingPage: React.FC = () => {
         <div className={styles.container}>
           <h2 className={styles.sectionTitle}>Small creators, big opportunities.</h2>
 
+          <div className={styles.campaignsWrapper}>
+            {/* Left Campaign Card */}
+            <div ref={leftCampaignRef} className={styles.campaignCard}>
+              <div className={styles.campaignHeader}>
+                
+                <img src="/pfp_lincoln.jpg" alt="Lincoln" className={styles.campaignPfp} />
 
+                <div className={styles.campaignBrandWrapper}>
+                  <div className={styles.campaignBrand}>Lincoln</div>
+                  <div className={styles.campaignPayout}>92% Match</div>
+                </div>
+              </div>
+              <h3 className={styles.campaignTitle}>AI Productivity App Launch</h3>
+              <p className={styles.campaignDescription}>Looking for tech-savvy creators to showcase our new AI assistant</p>
+              <div className={styles.campaignTags}>
+                <span className={styles.campaignTag}>Tech</span>
+                <span className={styles.campaignTag}>SaaS</span>
+              </div>
+            </div>
+
+            {/* Center Phone Graphic */}
             <div ref={letterContentRef} className={styles.letterContent}>
                     <p className={styles.letterText}>
                         Getting brands to notice you is hard. 
@@ -177,6 +293,24 @@ const CreatorLandingPage: React.FC = () => {
 
                     <img src="/newwave-text.png" alt="Letter" className={styles.letterImage} />
             </div>
+
+            {/* Right Campaign Card */}
+            <div ref={rightCampaignRef} className={styles.campaignCard}>
+              <div className={styles.campaignHeader}>
+                <img src="/pfp_victoria.jpg" alt="Victoria" className={styles.campaignPfp} />
+                <div className={styles.campaignBrandWrapper}>
+                  <div className={styles.campaignBrand}>Victoria </div>
+                  <div className={styles.campaignPayout}>97% Match</div>
+                </div>
+              </div>
+              <h3 className={styles.campaignTitle}>Wellness App Collab</h3>
+              <p className={styles.campaignDescription}>Seeking fitness creators for authentic workout app reviews</p>
+              <div className={styles.campaignTags}>
+                <span className={styles.campaignTag}>Health</span>
+                <span className={styles.campaignTag}>Lifestyle</span>
+              </div>
+            </div>
+          </div>
 
           
           <div className={styles.featuresGrid}>
@@ -236,7 +370,21 @@ const CreatorLandingPage: React.FC = () => {
           <div className={styles.workflowContainer}>
         
           <div className={styles.workflowSteps}>
-            <div className={styles.workflowStep}>
+            {/* Highlight pill that slides behind active step */}
+            <div 
+              className={styles.highlightPill}
+              style={{
+                width: `${pillStyle.width}px`,
+                height: `${pillStyle.height}px`,
+                transform: `translateY(${pillStyle.top}px)`
+              }}
+            />
+
+            <div 
+              ref={(el) => { stepRefs.current[0] = el; }}
+              className={`${styles.workflowStep} ${activeStep === 0 ? styles.activeStep : ''}`}
+              onClick={() => handleStepClick(0)}
+            >
               <div className={styles.stepNumber}>1</div>
               <div className={styles.stepContent}>
                 <h3>Select Your Platform</h3>
@@ -244,7 +392,11 @@ const CreatorLandingPage: React.FC = () => {
               </div>
             </div>
             
-            <div className={styles.workflowStep}>
+            <div 
+              ref={(el) => { stepRefs.current[1] = el; }}
+              className={`${styles.workflowStep} ${activeStep === 1 ? styles.activeStep : ''}`}
+              onClick={() => handleStepClick(1)}
+            >
               <div className={styles.stepNumber}>2</div>
               <div className={styles.stepContent}>
                 <h3>Discover Campaigns for You</h3>
@@ -252,7 +404,11 @@ const CreatorLandingPage: React.FC = () => {
               </div>
             </div>
             
-            <div className={styles.workflowStep}>
+            <div 
+              ref={(el) => { stepRefs.current[2] = el; }}
+              className={`${styles.workflowStep} ${activeStep === 2 ? styles.activeStep : ''}`}
+              onClick={() => handleStepClick(2)}
+            >
               <div className={styles.stepNumber}>3</div>
               <div className={styles.stepContent}>
                 <h3>Apply & Collaborate</h3>
@@ -260,7 +416,11 @@ const CreatorLandingPage: React.FC = () => {
               </div>
             </div>
             
-            <div className={styles.workflowStep}>
+            <div 
+              ref={(el) => { stepRefs.current[3] = el; }}
+              className={`${styles.workflowStep} ${activeStep === 3 ? styles.activeStep : ''}`}
+              onClick={() => handleStepClick(3)}
+            >
               <div className={styles.stepNumber}>4</div>
               <div className={styles.stepContent}>
                 <h3>Submit & Get Paid</h3>
