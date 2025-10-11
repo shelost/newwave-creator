@@ -98,21 +98,28 @@
 }
 
 .campaignsWrapper {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 250px minmax(720px, 1000px) 250px;
+  grid-template-rows: auto auto;
   align-items: center;
   justify-content: center;
-  gap: 48px;
+  gap: 100px 40px;
   margin-top: 80px;
-  max-width: 1400px;
+  max-width: 1600px;
   margin-left: auto;
   margin-right: auto;
 }
 
+.campaignCardRight {
+  grid-column: 3;
+}
+
+
 
 .campaignCard {
   flex: 1;
-  max-width: 280px;
+  width: 100%;
+  max-width: 250px;
   background: white;
   border-radius: 20px;
   padding: 28px;
@@ -120,15 +127,58 @@
   transition: all 0.3s ease, transform 0.1s ease-out;
   transform-style: preserve-3d;
   will-change: transform;
+  justify-self: center;
 }
 
-.campaignPfp {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  margin-top: -64px;
-  background: black;
+.campaignCard:first-of-type {
+  align-self: center;
+  grid-row: 1 / 3;
+}
+
+.campaignCardRight:first-of-type {
+  grid-row: 1;
+  align-self: flex-end;
+  margin-bottom: 20px;
+}
+
+.campaignCardRight:last-of-type {
+  grid-row: 2;
+  align-self: flex-start;
+  margin-top: 20px;
+}
+
+/* Campaign Logo Placeholder */
+.campaignLogoPlaceholder {
+  width: 80px;
+  height: 80px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 16px;
+  overflow: hidden;
+  background: #f8f9fa;
+}
+
+.campaignLogoImage {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+}
+
+.campaignLogoText {
+  font-size: 36px;
+}
+
+.campaignBrandName {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0a0a0a;
+  letter-spacing: -.5px;
+  text-align: center;
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
 }
 
 .campaignCard:hover {
@@ -203,58 +253,204 @@
   letter-spacing: -.25px;
 }
 
-.letterContent {
-    font-size: 18px;
-    line-height: 1.3;
-    font-weight: 600;
-    color: rgba(0, 0, 0, 0.4);
-    letter-spacing: -.4px;
-
-    margin: 0;
-    flex-shrink: 0;
-
-    width: 100%;
-    max-width: 360px;
-    height: 720px;
-    border-radius: 24px;
-    
-
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-family: 'Inter', sans-serif;
-
-    filter: drop-shadow(-12px 36px 60px rgba(0, 0, 0, 0.2));
-
-    background-image: url('../../public/iPhone 14 Pro.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+/* iPad-Style Screen with Chat Interface */
+.ipadScreen {
+  max-width: 100%;
+  width: 720px;
+  aspect-ratio: 16 / 11;
+  flex-shrink: 0;
+  position: relative;
+  filter: drop-shadow(-12px 48px 60px rgba(0, 0, 0, 0.1));
+  grid-column: 2;
+  grid-row: 1 / 3;
+  justify-self: center;
+  align-self: center;
 }
 
-.letterText {
-    font-size: 16px;
-    line-height: 1.3;
-    font-weight: 500;
-    color: rgba(0, 0, 0, 0.8);
-    letter-spacing: -.4px;
-    margin: 12px 0;
-    max-width: 500px;
-    width: 80%;
-    text-align: center;
-    font-family: 'Inter', sans-serif;
+.ipadBezel {
+  width: 100%;
+  height: 100%;
+  background: #1a1a1a;
+  border-radius: 28px;
+  padding: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
 }
 
-.letterImage {
-    position: absolute;
-    bottom: 48px;
-    left: 0;
-    right: 0;
-    margin: auto;
-   height: 28px;
+.chatInterface {
+  width: 100%;
+  height: 100%;
+  background: white;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.chatHeader {
+  background: #f8f9fa;
+  padding: 20px 24px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chatHeaderTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0a0a0a;
+  letter-spacing: -.5px;
+}
+
+.chatMessages {
+  flex: 1;
+  padding: 32px 24px;
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+  background: white;
+}
+
+.messageLeft,
+.messageRight {
+  display: flex;
+  flex-direction: column;
+  max-width: 75%;
+}
+
+.messageLeft {
+  align-self: flex-start;
+}
+
+.messageRight {
+  align-self: flex-end;
+}
+
+.messageBubbleLeft {
+  background: rgba(0, 0, 0, 0.08);
+  color: #0a0a0a;
+  padding: 12px 18px;
+  border-radius: 20px 20px 20px 4px;
+}
+
+.messageBubbleRight {
+  background-image: linear-gradient(160deg, #3471e9 0%, #6355FF 100%);
+  color: white;
+  padding: 12px 18px;
+  border-radius: 20px 20px 4px 20px;
+}
+
+.messageBubbleLeft p,
+.messageBubbleRight p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.4;
+  font-weight: 600;
+  letter-spacing: -.3px;
+}
+
+.campaignDetailsButton {
+  margin-top: 12px;
+  background: #2457BA;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: -.3px;
+}
+
+.campaignDetailsButton:hover {
+  background: #3454b4;
+  transform: translateY(-1px);
+}
+
+.chatFooter {
+  padding: 16px 24px;
+  background: #f8f9fa;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chatLogo {
+  height: 24px;
+  opacity: 0.5;
+}
+
+/* iMessage-style Input Bar */
+.chatInputBar {
+  padding: 8px 12px;
+  background: #f8f9fa;
+  border-top: 1px solid #e5e7eb;
+}
+
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  border-radius: 20px;
+  padding: 6px 8px 6px 12px;
+  border: 1px solid #e5e7eb;
+}
+
+.cameraIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.cameraIcon svg {
+  display: block;
+}
+
+.inputField {
+  flex: 1;
+  padding: 4px 8px;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+}
+
+.inputPlaceholder {
+  color: #999;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: -.2px;
+  user-select: none;
+}
+
+.sendButton {
+  width: 32px;
+  height: 32px;
+  background: #2457BA;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.sendButton:hover {
+  background: #3454b4;
+  transform: scale(1.05);
+}
+
+.sendButton svg {
+  transform: rotate(0deg);
 }
 
 .ctaButton {
@@ -481,6 +677,8 @@
   align-items: center;
   justify-content: center;
 
+  gap: 40px;
+
   max-width: 1200px;
   margin: auto;
 }
@@ -494,12 +692,450 @@
   position: relative;
 }
 
-.workflowVisualImage{
-    max-width: 100%;
-    width: 720px;
-    flex: 1;
-    flex-shrink: 1;
-    margin-top: 72px;
+/* Workflow Visual Cards */
+.workflowCard {
+  background: white;
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: -4px 24px 48px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+  animation: fadeInCard 0.5s ease-out;
+
+}
+
+@keyframes fadeInCard {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.workflowCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.workflowCardIcon {
+  font-size: 28px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #2457BA 0%, #3454b4 100%);
+  border-radius: 12px;
+  box-shadow: -4px 8px 16px rgba(36, 87, 186, 0.2);
+}
+
+.workflowCardHeader h4 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #0a0a0a;
+  letter-spacing: -1.5px;
+  margin: 0;
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+}
+
+.workflowCardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Profile Creation Form Styles */
+.profileFormSection {
+  margin-bottom: 24px;
+}
+
+.formLabel {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0a0a0a;
+  margin-bottom: 8px;
+  letter-spacing: -.3px;
+}
+
+.formHelp {
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.5);
+  margin: 4px 0 12px 0;
+  font-weight: 500;
+  letter-spacing: -.2px;
+}
+
+/* Platform Selection Grid */
+.platformSelectionGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.platformSelectCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.platformSelectCard:hover {
+  border-color: #2457BA;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(36, 87, 186, 0.1);
+}
+
+.platformSelectCard.selected {
+  border-color: #2457BA;
+  background: rgba(36, 87, 186, 0.05);
+}
+
+.platformSelectIcon {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.platformSelectCard span {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0a0a0a;
+  letter-spacing: -.3px;
+}
+
+/* Handle Input Group */
+.handleInputGroup {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.handleInputGroup:focus-within {
+  border-color: #2457BA;
+}
+
+.handlePrefix {
+  padding: 10px 12px;
+  background: #f8f9fa;
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -.2px;
+  border-right: 1px solid #e5e7eb;
+}
+
+.handleInput {
+  flex: 1;
+  padding: 10px 12px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: #0a0a0a;
+  letter-spacing: -.2px;
+  background: white;
+}
+
+.handleInput::placeholder {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.autofillButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  background: #2457BA;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -.2px;
+  transition: background 0.2s ease;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.autofillButton:hover {
+  background: #3454b4;
+}
+
+/* Scraped Data Grid */
+.scrapedDataGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.dataField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dataLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.6);
+  letter-spacing: -.2px;
+}
+
+.dataValue {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0a0a0a;
+  letter-spacing: -.5px;
+}
+
+.dataSource {
+  font-size: 11px;
+  color: #1abd66;
+  font-weight: 500;
+  letter-spacing: -.2px;
+}
+
+/* Language Chips */
+.languageChips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.languageChip {
+  padding: 8px 14px;
+  background: #f8f9fa;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0a0a0a;
+  letter-spacing: -.2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.languageChip:hover {
+  border-color: #2457BA;
+  background: rgba(36, 87, 186, 0.05);
+}
+
+.profilePreview {
+  display: flex;
+  gap: 16px;
+  padding: 24px;
+  background: linear-gradient(135deg, #2457BA 0%, #3454b4 100%);
+  border-radius: 16px;
+}
+
+.profileStat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.statNumber {
+  font-size: 24px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -.5px;
+}
+
+.statLabel {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: -.2px;
+}
+
+/* Campaign Browse Grid */
+.campaignBrowseGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.browseCampaignCard {
+  background: #f8f9fa;
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.browseCampaignCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border-color: #2457BA;
+}
+
+.browseLogo {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: #e5e7eb;
+}
+
+.browseInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.browseInfo strong {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0a0a0a;
+  letter-spacing: -.3px;
+}
+
+.browseFollowers {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.5);
+  letter-spacing: -.2px;
+}
+
+.browseTags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.browseTags span {
+  background: rgba(36, 87, 186, 0.1);
+  color: #2457BA;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: -.2px;
+}
+
+.browseApplyBtn {
+  width: 100%;
+  background: #2457BA;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: -.3px;
+}
+
+.browseApplyBtn:hover {
+  background: #3454b4;
+  transform: translateY(-2px);
+}
+
+/* Payment Flow */
+.paymentFlow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 24px;
+  background: #f8f9fa;
+  border-radius: 16px;
+}
+
+.paymentStep {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.paymentIcon {
+  width: 56px;
+  height: 56px;
+  background: white;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.paymentStep span {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0a0a0a;
+  text-align: center;
+  letter-spacing: -.2px;
+}
+
+.paymentArrow {
+  font-size: 24px;
+  color: rgba(0, 0, 0, 0.3);
+  font-weight: 700;
+}
+
+.paymentAmount {
+  padding: 32px;
+  background: linear-gradient(135deg, #1abd66 0%, #15a058 100%);
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.amountBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.amountLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: -.2px;
+}
+
+.amountValue {
+  font-size: 48px;
+  font-weight: 800;
+  color: white;
+  letter-spacing: -2px;
+  font-family: 'Oswald', sans-serif;
+}
+
+.amountStatus {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: -.2px;
 }
 
 .highlightPill {
@@ -583,7 +1219,13 @@
 .workflowVisual {
   margin-top: 80px;
   margin-left: -40px;
+  width: 600px;
+  height: 720px;
   align-items: center;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .laptopMockup {
@@ -769,8 +1411,7 @@
 }
 
 /* Parallax Performance Optimization - All Devices */
-.letterContent,
-.workflowVisualImage {
+.ipadScreen {
   /* Enable GPU acceleration for smooth parallax scrolling */
   will-change: transform;
   transform: translateZ(0);
@@ -839,13 +1480,22 @@
   }
 
   .campaignsWrapper {
-    flex-direction: column;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
     gap: 40px;
     margin-top: 60px;
   }
 
+  .campaignCard,
+  .campaignCardRight,
+  .ipadScreen {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
   .campaignCard {
     max-width: 480px;
+    margin: 0 auto;
   }
 }
 
@@ -905,30 +1555,149 @@
   }
   
   .campaignsWrapper {
-    flex-direction: column;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
     gap: 32px;
     margin-top: 48px;
+  }
+
+  .campaignCard,
+  .campaignCardRight,
+  .ipadScreen {
+    grid-column: 1;
+    grid-row: auto;
   }
 
   .campaignCard {
     max-width: 90%;
     width: 100%;
+    margin: 0 auto;
   }
 
-  .letterContent {
-    width: 320px;
-    height: 640px;
-    margin-top: 0;
+  .workflowCard {
+    padding: 24px;
+    max-width: 80vw;
+    margin: auto !important;
   }
-  
-  .letterText {
+
+  .workflowCardHeader h4 {
+    font-size: 28px;
+  }
+
+  .platformSelectionGrid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .platformSelectIcon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .scrapedDataGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .handlePrefix {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+
+  .handleInput {
+    font-size: 13px;
+    padding: 8px 10px;
+  }
+
+  .autofillButton {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+
+  .dataValue {
+    font-size: 18px;
+  }
+
+  .campaignBrowseGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .browseLogo {
+    height: 120px;
+  }
+
+  .paymentFlow {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .paymentArrow {
+    transform: rotate(90deg);
+  }
+
+  .ipadScreen {
+    width: 100vw;
+    box-sizing: border-box;
+    margin: 0;
+  }
+
+  .chatInterface {
+    box-sizing: border-box;
+    border-radius: 12px; 
+  }
+
+  .ipadBezel {
+    box-sizing: border-box;
+    padding: 12px;
+    border-radius: 24px;
+  }
+
+  .chatMessages {
+    padding: 20px 16px;
+    gap: 16px;
+  }
+
+  .messageBubbleLeft,
+  .messageBubbleRight {
+    padding: 12px 14px;
+  }
+
+  .messageBubbleLeft p,
+  .messageBubbleRight p {
     font-size: 14px;
-    margin: 10px 0;
   }
-  
-  .letterImage {
-    height: 24px;
-    bottom: 40px;
+
+  .chatLogo {
+    height: 20px;
+  }
+
+  .chatInputBar {
+    padding: 6px 10px;
+  }
+
+  .inputWrapper {
+    padding: 5px 6px 5px 10px;
+    gap: 7px;
+  }
+
+  .cameraIcon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .inputPlaceholder {
+    font-size: 14px;
+  }
+
+  .sendButton {
+    width: 28px;
+    height: 28px;
+  }
+
+  .sendButton svg {
+    width: 16px;
+    height: 16px;
   }
   
   .valuePropSection {
@@ -944,7 +1713,9 @@
   }
 
   .workflowVisual {
-    margin-top: 0px !important;
+    margin: 0px !important;
+    width: 90vw;
+    height: fit-content;
   }
   
   .workflowSteps {
@@ -1050,21 +1821,142 @@
     font-size: 13px;
   }
 
-  .letterContent {
-    max-width: 280px;
-    height: 560px;
-    margin-top: 0;
+  .ipadBezel {
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 20px;
   }
-  
-  .letterText {
+
+  .chatHeader {
+    padding: 16px 20px;
+  }
+
+  .chatHeaderTitle {
+    font-size: 16px;
+  }
+
+  .chatMessages {
+    padding: 16px 12px;
+    gap: 12px;
+  }
+
+  .messageBubbleLeft,
+  .messageBubbleRight {
+    padding: 10px 12px;
+  }
+
+  .messageBubbleLeft p,
+  .messageBubbleRight p {
+    font-size: 13px;
+  }
+
+  .campaignDetailsButton {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .chatLogo {
+    height: 18px;
+  }
+
+  .chatInputBar {
+    padding: 5px 8px;
+  }
+
+  .inputWrapper {
+    padding: 4px 5px 4px 8px;
+    gap: 6px;
+  }
+
+  .cameraIcon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .inputPlaceholder {
+    font-size: 13px;
+  }
+
+  .sendButton {
+    width: 26px;
+    height: 26px;
+  }
+
+  .sendButton svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .workflowCard {
+    padding: 20px;
+  }
+
+  .workflowCardIcon {
+    width: 32px;
+    height: 32px;
+    font-size: 24px;
+  }
+
+  .workflowCardHeader h4 {
+    font-size: 24px;
+  }
+
+  .amountValue {
+    font-size: 36px;
+  }
+
+  .platformSelectionGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .platformSelectIcon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .handlePrefix {
+    font-size: 11px;
+    padding: 7px 8px;
+  }
+
+  .handleInput {
     font-size: 12px;
-    margin: 8px 0;
-    width: 85%;
+    padding: 7px 8px;
   }
-  
-  .letterImage {
-    height: 20px;
-    bottom: 32px;
+
+  .autofillButton {
+    font-size: 11px;
+    padding: 7px 10px;
+  }
+
+  .autofillButton svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .dataValue {
+    font-size: 16px;
+  }
+
+  .dataLabel {
+    font-size: 11px;
+  }
+
+  .dataSource {
+    font-size: 10px;
+  }
+
+  .languageChip {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .campaignBrowseGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .browseLogo {
+    height: 100px;
   }
   
   .valuePropSection {

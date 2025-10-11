@@ -22,13 +22,14 @@ const CreatorLandingPage: React.FC = () => {
   const [isLetterVisible, setIsLetterVisible] = useState(false);
   const [isWorkflowVisible, setIsWorkflowVisible] = useState(false);
 
-  // Workflow steps state and refs
+  // Workflow steps state and refs (updated to 3 steps)
   const [activeStep, setActiveStep] = useState(0);
   const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [pillStyle, setPillStyle] = useState({ width: 0, top: 0, height: 0 });
 
-  // Campaign cards refs for 3D effects
+  // Campaign cards refs for 3D effects (updated to 3 cards)
   const leftCampaignRef = useRef<HTMLDivElement>(null);
+  const centerCampaignRef = useRef<HTMLDivElement>(null);
   const rightCampaignRef = useRef<HTMLDivElement>(null);
   const [isCampaignsVisible, setIsCampaignsVisible] = useState(false);
   const campaignsObserverRef = useRef<IntersectionObserver | null>(null);
@@ -123,6 +124,19 @@ const CreatorLandingPage: React.FC = () => {
           leftCampaignRef.current.style.transform = `perspective(600px) rotateY(${rotateY}deg) skewX(${skewX}deg)`;
         }
 
+        // Center campaign card - rotates slightly left
+        if (centerCampaignRef.current) {
+          const rect = centerCampaignRef.current.getBoundingClientRect();
+          const cardCenter = rect.top + rect.height / 2;
+          const viewportCenter = window.innerHeight / 2;
+          const distance = (viewportCenter - cardCenter) / window.innerHeight;
+          
+          const rotateY = Math.max(-8, Math.min(8, distance * -12));
+          const skewX = Math.max(-3, Math.min(3, distance * -5));
+          
+          centerCampaignRef.current.style.transform = `perspective(1000px) rotateY(${rotateY}deg) skewX(${skewX}deg)`;
+        }
+
         // Right campaign card - rotates slightly left and skews as you scroll
         if (rightCampaignRef.current) {
           const rect = rightCampaignRef.current.getBoundingClientRect();
@@ -140,6 +154,9 @@ const CreatorLandingPage: React.FC = () => {
         // Reset transforms on mobile for better readability
         if (leftCampaignRef.current) {
           leftCampaignRef.current.style.transform = 'none';
+        }
+        if (centerCampaignRef.current) {
+          centerCampaignRef.current.style.transform = 'none';
         }
         if (rightCampaignRef.current) {
           rightCampaignRef.current.style.transform = 'none';
@@ -244,70 +261,111 @@ const CreatorLandingPage: React.FC = () => {
           <h2 className={styles.sectionTitle}>Small creators, big opportunities.</h2>
 
           <div className={styles.campaignsWrapper}>
-            {/* Left Campaign Card */}
+            {/* Left Campaign Card - NoteMate */}
             <div ref={leftCampaignRef} className={styles.campaignCard}>
               <div className={styles.campaignHeader}>
-                
-                <img src="/pfp_lincoln.jpg" alt="Lincoln" className={styles.campaignPfp} />
-
+                <div className={styles.campaignLogoPlaceholder}>
+                  <img src="/notemate.png" alt="NoteMate" className={styles.campaignLogoImage} />
+                </div>
                 <div className={styles.campaignBrandWrapper}>
-                  <div className={styles.campaignBrand}>Lincoln</div>
-                  <div className={styles.campaignPayout}>92% Match</div>
+                  <div className={styles.campaignBrandName}>NoteMate</div>
                 </div>
               </div>
-              <h3 className={styles.campaignTitle}>AI Productivity App Launch</h3>
-              <p className={styles.campaignDescription}>Looking for tech-savvy creators to showcase our new AI assistant</p>
+              <p className={styles.campaignDescription}>Looking for student creators who love "study-with-me" content</p>
               <div className={styles.campaignTags}>
-                <span className={styles.campaignTag}>Tech</span>
-                <span className={styles.campaignTag}>SaaS</span>
+                <span className={styles.campaignTag}>EdTech</span>
+                <span className={styles.campaignTag}>Productivity</span>
               </div>
             </div>
 
-            {/* Center Phone Graphic */}
-            <div ref={letterContentRef} className={styles.letterContent}>
-                    <p className={styles.letterText}>
-                        Getting brands to notice you is hard. 
-                    </p>
-                    <p className={styles.letterText}>
-                        
-                        That's why we flip the script. 
-                    </p>
-                    <p className={styles.letterText}>
-                        Instead of you chasing deals, 
-                    </p>
-                    <p className={styles.letterText}>
-                        Our AI brings the newest startups straight to your inbox. 
-                    </p>
-                    <p className={styles.letterText}>
-                        Cool products. Real collabs. No waiting.
-                    </p>
-                    <p className={styles.letterText}>
-                        Instead of you chasing deals, 
-                    </p>
-                    <p className={styles.letterText}>
-                        Our AI brings the newest startups straight to your inbox. 
-                    </p>
-                    <p className={styles.letterText}>
-                        Cool products. Real collabs. No waiting.
-                    </p>
+            {/* Center iPad-Style Screen with Chat Interface */}
+            <div ref={letterContentRef} className={styles.ipadScreen}>
+              <div className={styles.ipadBezel}>
+                <div className={styles.chatInterface}>
+                  {/* Chat Header */}
+                  <div className={styles.chatHeader}>
+                    <img src="/newwave-text.png" alt="NewWave" className={styles.chatLogo} />
+                  </div>
+                  
+                  {/* Chat Messages */}
+                  <div className={styles.chatMessages}>
+                    {/* Brand Message 1 (Left) */}
+                    <div className={styles.messageLeft}>
+                      <div className={styles.messageBubbleLeft}>
+                        <p>Hey! We're launching an AI study co-pilot called <strong>NoteMate</strong>. Would love to invite you to join our creator campaign with payout!</p>
+                        <button className={styles.campaignDetailsButton}>View Campaign Details</button>
+                      </div>
+                    </div>
 
-                    <img src="/newwave-text.png" alt="Letter" className={styles.letterImage} />
-            </div>
+                    {/* Creator Reply (Right) */}
+                    <div className={styles.messageRight}>
+                      <div className={styles.messageBubbleRight}>
+                        <p>This looks super cool — I'd love to join!</p>
+                      </div>
+                    </div>
 
-            {/* Right Campaign Card */}
-            <div ref={rightCampaignRef} className={styles.campaignCard}>
-              <div className={styles.campaignHeader}>
-                <img src="/pfp_victoria.jpg" alt="Victoria" className={styles.campaignPfp} />
-                <div className={styles.campaignBrandWrapper}>
-                  <div className={styles.campaignBrand}>Victoria </div>
-                  <div className={styles.campaignPayout}>97% Match</div>
+                    {/* Brand Follow-up (Left) */}
+                    <div className={styles.messageLeft}>
+                      <div className={styles.messageBubbleLeft}>
+                        <p>Amazing! Here's your creator link to get started!</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* iMessage-style Input Bar */}
+                  <div className={styles.chatInputBar}>
+                    <div className={styles.inputWrapper}>
+                      <div className={styles.cameraIcon}>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                          <path d="M21 15V9c0-1.1-.9-2-2-2h-1.6L16 5.6C15.6 5.2 15.1 5 14.6 5H9.4c-.5 0-1 .2-1.4.6L6.6 7H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-2" stroke="#2457BA" strokeWidth="2" strokeLinecap="round"/>
+                          <circle cx="12" cy="13" r="3" stroke="#2457BA" strokeWidth="2"/>
+                        </svg>
+                      </div>
+                      <div className={styles.inputField}>
+                        <span className={styles.inputPlaceholder}>iMessage</span>
+                      </div>
+                      <div className={styles.sendButton}>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="white">
+                          <path d="M2 10L18 2L12 18L10 11L2 10Z"/>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <h3 className={styles.campaignTitle}>Wellness App Collab</h3>
-              <p className={styles.campaignDescription}>Seeking fitness creators for authentic workout app reviews</p>
+            </div>
+
+            {/* Right Top Campaign Card - FitSync */}
+            <div ref={centerCampaignRef} className={`${styles.campaignCard} ${styles.campaignCardRight}`}>
+              <div className={styles.campaignHeader}>
+                <div className={styles.campaignLogoPlaceholder}>
+                  <img src="/fitsync.png" alt="FitSync" className={styles.campaignLogoImage} />
+                </div>
+                <div className={styles.campaignBrandWrapper}>
+                  <div className={styles.campaignBrandName}>FitSync</div>
+                </div>
+              </div>
+              <p className={styles.campaignDescription}>Looking for lifestyle creators to film their 7-day progress</p>
               <div className={styles.campaignTags}>
                 <span className={styles.campaignTag}>Health</span>
                 <span className={styles.campaignTag}>Lifestyle</span>
+              </div>
+            </div>
+
+            {/* Right Bottom Campaign Card - ClipKit */}
+            <div ref={rightCampaignRef} className={`${styles.campaignCard} ${styles.campaignCardRight}`}>
+              <div className={styles.campaignHeader}>
+                <div className={styles.campaignLogoPlaceholder}>
+                  <img src="/clipkit.png" alt="ClipKit" className={styles.campaignLogoImage} />
+                </div>
+                <div className={styles.campaignBrandWrapper}>
+                  <div className={styles.campaignBrandName}>ClipKit</div>
+                </div>
+              </div>
+              <p className={styles.campaignDescription}>Recruiting creators who love editing TikToks & Reels</p>
+              <div className={styles.campaignTags}>
+                <span className={styles.campaignTag}>Creator Tools</span>
+                <span className={styles.campaignTag}>Video</span>
               </div>
             </div>
           </div>
@@ -387,8 +445,8 @@ const CreatorLandingPage: React.FC = () => {
             >
               <div className={styles.stepNumber}>1</div>
               <div className={styles.stepContent}>
-                <h3>Select Your Platform</h3>
-                <p>Choose TikTok, Instagram, or YouTube and add your handle to instantly build your profile with scraped data.</p>
+                <h3>Build Your Profile with One Click</h3>
+                <p>Connect your TikTok, Instagram, or YouTube — we'll instantly build your creator profile with data pulled from your content and engagement.</p>
               </div>
             </div>
             
@@ -399,8 +457,8 @@ const CreatorLandingPage: React.FC = () => {
             >
               <div className={styles.stepNumber}>2</div>
               <div className={styles.stepContent}>
-                <h3>Discover Campaigns for You</h3>
-                <p>Apply to campaigns tailored to your profile through our AI matching algorithm.</p>
+                <h3>Apply & Collaborate</h3>
+                <p>Browse campaigns that match your niche and apply directly to brands you actually like.</p>
               </div>
             </div>
             
@@ -411,26 +469,218 @@ const CreatorLandingPage: React.FC = () => {
             >
               <div className={styles.stepNumber}>3</div>
               <div className={styles.stepContent}>
-                <h3>Apply & Collaborate</h3>
-                <p>Apply directly to the campaigns that fit best and start collaborating with brands.</p>
-              </div>
-            </div>
-            
-            <div 
-              ref={(el) => { stepRefs.current[3] = el; }}
-              className={`${styles.workflowStep} ${activeStep === 3 ? styles.activeStep : ''}`}
-              onClick={() => handleStepClick(3)}
-            >
-              <div className={styles.stepNumber}>4</div>
-              <div className={styles.stepContent}>
                 <h3>Submit & Get Paid</h3>
-                <p>Upload your deliverables and get paid securely through escrow once content is approved.</p>
+                <p>Deliver your content and get paid securely once the brand approves your post.</p>
               </div>
             </div>
           </div>
           
           <div className={styles.workflowVisual}>
-            <img ref={workflowImageRef} src="/macbook.png" alt="Workflow Visual" className={styles.workflowVisualImage} />
+            {/* Modular Visual Cards Based on Active Step */}
+            {activeStep === 0 && (
+              <div className={styles.workflowCard}>
+                <div className={styles.workflowCardHeader}>
+                  <div className={styles.workflowCardIcon}>🔗</div>
+                  <h4>Connect Your Platform</h4>
+                </div>
+                <div className={styles.workflowCardContent}>
+                  {/* Platform Selection */}
+                  <div className={styles.profileFormSection}>
+                    <label className={styles.formLabel}>Platform(s) *</label>
+                    <p className={styles.formHelp}>Select all platforms where you create content</p>
+                    <div className={styles.platformSelectionGrid}>
+                      <div className={`${styles.platformSelectCard} ${styles.selected}`}>
+                        <img src="/tiktok.svg" alt="TikTok" className={styles.platformSelectIcon} />
+                        <span>TikTok</span>
+                      </div>
+                      <div className={styles.platformSelectCard}>
+                        <img src="/instagram.svg" alt="Instagram" className={styles.platformSelectIcon} />
+                        <span>Instagram</span>
+                      </div>
+                      <div className={styles.platformSelectCard}>
+                        <img src="/youtube.svg" alt="YouTube" className={styles.platformSelectIcon} />
+                        <span>YouTube</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Platform Details Form */}
+                  <div className={styles.profileFormSection}>
+                    <label className={styles.formLabel}>Handle or URL</label>
+                    <div className={styles.handleInputGroup}>
+                      <span className={styles.handlePrefix}>tiktok.com/@</span>
+                      <input 
+                        type="text" 
+                        className={styles.handleInput} 
+                        placeholder="lincolnlittlelife"
+                        value="lincolnlittlelife"
+                        readOnly
+                      />
+                      <button className={styles.autofillButton}>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                          <path d="M8 2a6 6 0 100 12A6 6 0 008 2zm0 1a5 5 0 110 10A5 5 0 018 3zm-.5 2h1v3.5h3v1h-3.5V5z"/>
+                        </svg>
+                        Autofill
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Scraped Data Display */}
+                  <div className={styles.scrapedDataGrid}>
+                    <div className={styles.dataField}>
+                      <label className={styles.dataLabel}>Followers</label>
+                      <div className={styles.dataValue}>96</div>
+                      <div className={styles.dataSource}>✓ Updated from scraping: 96</div>
+                    </div>
+                    <div className={styles.dataField}>
+                      <label className={styles.dataLabel}>Engagement Rate (%)</label>
+                      <div className={styles.dataValue}>216.54</div>
+                      <div className={styles.dataSource}>✓ Updated from scraping: 216.54</div>
+                    </div>
+                    <div className={styles.dataField}>
+                      <label className={styles.dataLabel}>Average Views</label>
+                      <div className={styles.dataValue}>3742</div>
+                      <div className={styles.dataSource}>✓ Updated from scraping: 3742</div>
+                    </div>
+                  </div>
+
+                  {/* Languages */}
+                  <div className={styles.profileFormSection}>
+                    <label className={styles.formLabel}>Languages</label>
+                    <div className={styles.languageChips}>
+                      <span className={styles.languageChip}>English</span>
+                      <span className={styles.languageChip}>Chinese</span>
+                      <span className={styles.languageChip}>Spanish</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeStep === 1 && (
+              <div className={styles.workflowCard}>
+                <div className={styles.workflowCardHeader}>
+                  <div className={styles.workflowCardIcon}>🎯</div>
+                  <h4>Browse & Apply to Campaigns</h4>
+                </div>
+                <div className={styles.workflowCardContent}>
+                  <div className={styles.campaignBrowseGrid}>
+                    <div className={styles.browseCampaignCard}>
+                      <img src="/notemate.png" alt="NoteMate" className={styles.browseLogo} />
+                      <div className={styles.browseInfo}>
+                        <strong>NoteMate</strong>
+                        <span className={styles.browseFollowers}>160k+</span>
+                        <div className={styles.browseTags}>
+                          <span>EdTech</span>
+                          <span>Productivity</span>
+                        </div>
+                      </div>
+                      <button className={styles.browseApplyBtn}>Apply</button>
+                    </div>
+            
+                    
+                    <div className={styles.browseCampaignCard}>
+                      <img src="/clipkit.png" alt="ClipKit" className={styles.browseLogo} />
+                      <div className={styles.browseInfo}>
+                        <strong>ClipKit</strong>
+                        <span className={styles.browseFollowers}>135k+</span>
+                        <div className={styles.browseTags}>
+                          <span>Video</span>
+                          <span>Creator Tools</span>
+                        </div>
+                      </div>
+                      <button className={styles.browseApplyBtn}>Apply</button>
+                    </div>
+
+                    <div className={styles.browseCampaignCard}>
+                      <img src="/talkai.png" alt="TalkAI" className={styles.browseLogo} />
+                      <div className={styles.browseInfo}>
+                        <strong>TalkAI</strong>
+                        <span className={styles.browseFollowers}>180k+</span>
+                        <div className={styles.browseTags}>
+                          <span>AI</span>
+                          <span>Communication</span>
+                        </div>
+                      </div>
+                      <button className={styles.browseApplyBtn}>Apply</button>
+                    </div>
+
+                    <div className={styles.browseCampaignCard}>
+                      <img src="/echofeed.png" alt="EchoFeed" className={styles.browseLogo} />
+                      <div className={styles.browseInfo}>
+                        <strong>EchoFeed</strong>
+                        <span className={styles.browseFollowers}>150k+</span>
+                        <div className={styles.browseTags}>
+                          <span>Social</span>
+                          <span>Content</span>
+                        </div>
+                      </div>
+                      <button className={styles.browseApplyBtn}>Apply</button>
+                    </div>
+
+                    <div className={styles.browseCampaignCard}>
+                      <img src="/mindlyze.png" alt="MindLyze" className={styles.browseLogo} />
+                      <div className={styles.browseInfo}>
+                        <strong>MindLyze</strong>
+                        <span className={styles.browseFollowers}>165k+</span>
+                        <div className={styles.browseTags}>
+                          <span>Analytics</span>
+                          <span>AI</span>
+                        </div>
+                      </div>
+                      <button className={styles.browseApplyBtn}>Apply</button>
+                    </div>
+
+                    <div className={styles.browseCampaignCard}>
+                      <img src="/talk.png" alt="Talk" className={styles.browseLogo} />
+                      <div className={styles.browseInfo}>
+                        <strong>Talk</strong>
+                        <span className={styles.browseFollowers}>200k+</span>
+                        <div className={styles.browseTags}>
+                          <span>Social</span>
+                          <span>Messaging</span>
+                        </div>
+                      </div>
+                      <button className={styles.browseApplyBtn}>Apply</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeStep === 2 && (
+              <div className={styles.workflowCard}>
+                <div className={styles.workflowCardHeader}>
+                  <div className={styles.workflowCardIcon}>💰</div>
+                  <h4>Get Paid Securely</h4>
+                </div>
+                <div className={styles.workflowCardContent}>
+                  <div className={styles.paymentFlow}>
+                    <div className={styles.paymentStep}>
+                      <div className={styles.paymentIcon}>📤</div>
+                      <span>Submit Content</span>
+                    </div>
+                    <div className={styles.paymentArrow}>→</div>
+                    <div className={styles.paymentStep}>
+                      <div className={styles.paymentIcon}>✅</div>
+                      <span>Brand Approves</span>
+                    </div>
+                    <div className={styles.paymentArrow}>→</div>
+                    <div className={styles.paymentStep}>
+                      <div className={styles.paymentIcon}>💵</div>
+                      <span>Instant Payout</span>
+                    </div>
+                  </div>
+                  <div className={styles.paymentAmount}>
+                    <div className={styles.amountBox}>
+                      <span className={styles.amountLabel}>Payment received</span>
+                      <span className={styles.amountValue}>$5,000</span>
+                      <span className={styles.amountStatus}>✓ Instant payments</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
           </div>
         </div>
