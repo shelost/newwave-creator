@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './CreatorLandingPage.module.css';
 import BlobBackground from './BlobBackground';
 
@@ -703,7 +704,13 @@ const CreatorLandingPage: React.FC = () => {
       {/* Footer */}
       <footer className={styles.footer}>
         <div className={styles.container}>
-          <p>&copy; 2025 Newwave. All rights reserved.</p>
+          <div className={styles.footerContent}>
+            <nav className={styles.footerNav}>
+              <Link to="/" className={styles.footerLink}>Home</Link>
+              <Link to="/manifesto" className={styles.footerLink}>Manifesto</Link>
+            </nav>
+            <p className={styles.footerCopy}>&copy; 2025 Newwave. All rights reserved.</p>
+          </div>
         </div>
       </footer>
     </div>

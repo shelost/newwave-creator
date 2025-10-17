@@ -1,12 +1,19 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import CreatorLandingPage from './components/CreatorLandingPage';
+import Manifesto from './components/Manifesto';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <CreatorLandingPage />
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<CreatorLandingPage />} />
+          <Route path="/manifesto" element={<Manifesto />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
